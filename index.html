@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 DSA Quest - Master Competitive Programming</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="floating-shape shape1">⚡</div>
+        <div class="floating-shape shape2">🔥</div>
+        <div class="floating-shape shape3">💻</div>
+        <div class="floating-shape shape4">🚀</div>
+        <div class="floating-shape shape5">⭐</div>
+        <div class="floating-shape shape6">🎯</div>
+    </div>
+
+    <!-- Start Screen -->
+    <div id="startScreen" class="screen active">
+        <div class="logo-container">
+            <div class="logo-icon">🎮</div>
+            <h1 class="game-title">DSA QUEST</h1>
+            <p class="tagline">Master Competitive Programming</p>
+        </div>
+        
+        <div class="stats-preview">
+            <div class="stat-box">
+                <span class="stat-number" id="totalProblems">100</span>
+                <span class="stat-label">Problems</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number" id="totalPatterns">20</span>
+                <span class="stat-label">Patterns</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number" id="masteredCount">0</span>
+                <span class="stat-label">Mastered</span>
+            </div>
+        </div>
+
+        <div class="mode-selection">
+            <h3>Choose Your Mode</h3>
+            <div class="mode-buttons">
+                <button class="mode-btn" onclick="startGame('all')">
+                    <span class="mode-icon">🎯</span>
+                    <span class="mode-text">All Problems</span>
+                </button>
+                <button class="mode-btn" onclick="startGame('review')">
+                    <span class="mode-icon">📚</span>
+                    <span class="mode-text">Need Review</span>
+                </button>
+                <button class="mode-btn" onclick="showPatternSelect()">
+                    <span class="mode-icon">🗂️</span>
+                    <span class="mode-text">By Pattern</span>
+                </button>
+            </div>
+        </div>
+
+        <button class="restart-btn" onclick="resetProgress()">
+            <span>🔄</span> Reset All Progress
+        </button>
+    </div>
+
+    <!-- Pattern Selection Screen -->
+    <div id="patternScreen" class="screen">
+        <button class="back-btn" onclick="showStartScreen()">← Back</button>
+        <h2 class="section-title">Select a Pattern</h2>
+        <div class="pattern-grid" id="patternGrid"></div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" class="screen">
+        <div class="game-header">
+            <button class="back-btn" onclick="showStartScreen()">← Exit</button>
+            <div class="progress-info">
+                <span id="currentIndex">1</span> / <span id="totalCards">100</span>
+            </div>
+            <div class="score-display">
+                <span class="score-icon">⭐</span>
+                <span id="sessionScore">0</span>
+            </div>
+        </div>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="pattern-badge" id="patternBadge">Array Traversal</div>
+
+        <div class="card-container">
+            <div class="swipe-hint left-hint">
+                <span>👈</span>
+                <span>Need Practice</span>
+            </div>
+            
+            <div class="card" id="flashcard">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="difficulty-badge" id="difficultyBadge">Medium</div>
+                        <h2 class="problem-title" id="problemTitle">Two Sum</h2>
+                        <p class="problem-hint" id="problemHint">Click to reveal solution</p>
+                        <div class="card-footer">
+                            <span class="tap-hint">Tap card to flip</span>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <div class="solution-section">
+                            <h3>💡 Approach</h3>
+                            <p id="approach">Use a hash map to store visited numbers</p>
+                        </div>
+                        <div class="solution-section">
+                            <h3>⏱️ Complexity</h3>
+                            <p id="complexity">Time: O(n) | Space: O(n)</p>
+                        </div>
+                        <div class="solution-section">
+                            <h3>🎯 Key Insight</h3>
+                            <p id="keyInsight">For each number, check if target - num exists in map</p>
+                        </div>
+                        <div class="solution-section code-section">
+                            <h3>📝 Pseudocode</h3>
+                            <pre id="pseudocode">map = {}
+for i, num in array:
+    if target - num in map:
+        return [map[target-num], i]
+    map[num] = i</pre>
+                        </div>
+                        <a class="leetcode-link" id="leetcodeLink" href="#" target="_blank">
+                            🔗 Solve on LeetCode
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swipe-hint right-hint">
+                <span>Mastered!</span>
+                <span>👉</span>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn need-practice" onclick="swipeLeft()">
+                <span class="btn-icon">❌</span>
+                <span class="btn-text">Need Practice</span>
+            </button>
+            <button class="action-btn flip-btn" onclick="flipCard()">
+                <span class="btn-icon">🔄</span>
+                <span class="btn-text">Flip</span>
+            </button>
+            <button class="action-btn mastered" onclick="swipeRight()">
+                <span class="btn-icon">✅</span>
+                <span class="btn-text">Mastered!</span>
+            </button>
+        </div>
+
+        <div class="keyboard-hints">
+            <span>⬅️ Left Arrow: Need Practice</span>
+            <span>Space: Flip</span>
+            <span>➡️ Right Arrow: Mastered</span>
+        </div>
+    </div>
+
+    <!-- Completion Screen -->
+    <div id="completionScreen" class="screen">
+        <div class="completion-content">
+            <div class="trophy">🏆</div>
+            <h1>Session Complete!</h1>
+            <div class="final-stats">
+                <div class="stat-card">
+                    <span class="stat-value" id="finalMastered">0</span>
+                    <span class="stat-name">Mastered</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="finalReview">0</span>
+                    <span class="stat-name">Need Review</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="finalScore">0</span>
+                    <span class="stat-name">Score</span>
+                </div>
+            </div>
+            <div class="completion-actions">
+                <button class="action-btn" onclick="startGame('review')">
+                    📚 Review Weak Areas
+                </button>
+                <button class="action-btn" onclick="showStartScreen()">
+                    🏠 Main Menu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✨</span>
+        <span class="toast-message">Great job!</span>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
