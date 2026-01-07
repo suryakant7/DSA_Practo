@@ -6,6 +6,10 @@
     <title>🔥 DSA Quest - Master Competitive Programming</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Google AdSense - Add your publisher ID here -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+     crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- Animated Background -->
@@ -20,6 +24,16 @@
 
     <!-- Start Screen -->
     <div id="startScreen" class="screen active">
+        <!-- Ad Placement 1: Top Banner -->
+        <div class="ad-container ad-banner-top">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+
         <div class="logo-container">
             <div class="logo-icon">🎮</div>
             <h1 class="game-title">DSA QUEST</h1>
@@ -62,10 +76,30 @@
         <button class="restart-btn" onclick="resetProgress()">
             <span>🔄</span> Reset All Progress
         </button>
+
+        <!-- Ad Placement 2: Bottom of Start Screen -->
+        <div class="ad-container ad-banner-bottom">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="0987654321"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
     </div>
 
     <!-- Pattern Selection Screen -->
     <div id="patternScreen" class="screen">
+        <!-- Ad Placement 3: Pattern Selection Top -->
+        <div class="ad-container ad-banner-top">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="1111111111"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+
         <button class="back-btn" onclick="showStartScreen()">← Back</button>
         <h2 class="section-title">Select a Pattern</h2>
         <div class="pattern-grid" id="patternGrid"></div>
@@ -160,10 +194,30 @@ for i, num in array:
             <span>Space: Flip</span>
             <span>➡️ Right Arrow: Mastered</span>
         </div>
+
+        <!-- Ad Placement 4: Bottom of Game Screen (Sticky) -->
+        <div class="ad-container ad-sticky-bottom">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="2222222222"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
     </div>
 
     <!-- Completion Screen -->
     <div id="completionScreen" class="screen">
+        <!-- Ad Placement 5: Completion Screen Top -->
+        <div class="ad-container ad-banner-top">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="3333333333"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+
         <div class="completion-content">
             <div class="trophy">🏆</div>
             <h1>Session Complete!</h1>
@@ -189,6 +243,16 @@ for i, num in array:
                     🏠 Main Menu
                 </button>
             </div>
+
+            <!-- Ad Placement 6: Completion Screen Bottom -->
+            <div class="ad-container ad-banner-bottom">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="4444444444"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+            </div>
         </div>
     </div>
 
@@ -200,5 +264,19 @@ for i, num in array:
 
     <script src="data.js"></script>
     <script src="app.js"></script>
+    
+    <!-- Initialize AdSense ads -->
+    <script>
+        // Load ads after DOM is ready
+        window.addEventListener('load', function() {
+            // Push all ads
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        });
+    </script>
 </body>
 </html>

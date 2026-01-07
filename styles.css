@@ -958,3 +958,66 @@ body {
     background: var(--orange-primary);
     color: var(--bg-dark);
 }
+
+/* ============================================
+   AD CONTAINERS
+   ============================================ */
+.ad-container {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    padding: 10px;
+    background: rgba(26, 26, 26, 0.5);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 107, 0, 0.2);
+    min-height: 90px;
+}
+
+.ad-banner-top {
+    margin-bottom: 20px;
+}
+
+.ad-banner-bottom {
+    margin-top: 20px;
+}
+
+.ad-sticky-bottom {
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+    background: var(--bg-dark);
+    border-top: 2px solid var(--orange-primary);
+    margin: 0;
+    padding: 10px;
+    border-radius: 0;
+}
+
+/* Ad placeholder text when ads don't load */
+.ad-container ins {
+    min-width: 300px;
+    min-height: 50px;
+}
+
+/* Ad responsive adjustments */
+@media (max-width: 768px) {
+    .ad-container {
+        margin: 15px 0;
+        padding: 8px;
+        min-height: 70px;
+    }
+    
+    .ad-sticky-bottom {
+        padding: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ad-container {
+        margin: 10px 0;
+        padding: 5px;
+        min-height: 60px;
+    }
+}

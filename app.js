@@ -278,6 +278,7 @@ function initTouchHandlers() {
 
 function handleTouchStart(e) {
     touchStartX = e.touches[0].clientX;
+    touchEndX = e.touches[0].clientX; // Initialize touchEndX same as start
 }
 
 function handleTouchMove(e) {
@@ -296,24 +297,27 @@ function handleTouchEnd(e) {
     card.style.transform = '';
     card.style.transition = '';
     
-    if (Math.abs(diff) > 80) {
+    // Swipe threshold increased and check if moved during touch
+    if (Math.abs(diff) > 100) {
+        // Clear swipe detected
         if (diff > 0) {
             swipeRight();
         } else {
             swipeLeft();
         }
-    } else if (Math.abs(diff) < 10) {
-        // It's a tap, not a swipe
-        // Don't flip here - let click handler do it
+    } else if (Math.abs(diff) < 15) {
+        // It's a tap - flip the card
+        flipCard();
     }
     
+    // Reset
     touchStartX = 0;
     touchEndX = 0;
 }
 
 function handleCardClick(e) {
-    // Only flip if not swiping
-    if (Math.abs(touchEndX - touchStartX) < 10) {
+    // Only flip if it's a desktop click (no touch event)
+    if (touchStartX === 0 && touchEndX === 0) {
         flipCard();
     }
 }
