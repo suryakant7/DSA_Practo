@@ -269,43 +269,66 @@ function swipeRight() {
 // ============================================
 // TOUCH/SWIPE HANDLING
 // ============================================
+let isSwiping = false;
+
 function initTouchHandlers() {
     card.addEventListener('touchstart', handleTouchStart, { passive: true });
-    card.addEventListener('touchmove', handleTouchMove, { passive: true });
+    card.addEventListener('touchmove', handleTouchMove, { passive: false });
     card.addEventListener('touchend', handleTouchEnd, { passive: true });
     card.addEventListener('click', handleCardClick);
 }
 
 function handleTouchStart(e) {
     touchStartX = e.touches[0].clientX;
-    touchEndX = e.touches[0].clientX; // Initialize touchEndX same as start
+    touchEndX = e.touches[0].clientX;
+    isSwiping = false;
 }
 
 function handleTouchMove(e) {
+    if (!touchStartX) return;
+    
     touchEndX = e.touches[0].clientX;
     const diff = touchEndX - touchStartX;
     
+    // Mark as swiping if moved more than threshold
+    if (Math.abs(diff) > 10) {
+        isSwiping = true;
+    }
+    
     // Add visual feedback during swipe
     if (Math.abs(diff) > 20) {
-        card.style.transform = `translateX(${diff * 0.3}px) rotate(${diff * 0.02}deg)`;
+        e.preventDefault(); // Prevent scroll
+        const rotation = diff * 0.05;
+        const scale = 1 - Math.abs(diff) * 0.0003;
+        card.style.transform = `translateX(${diff * 0.5}px) rotate(${rotation}deg) scale(${scale})`;
         card.style.transition = 'none';
+        
+        // Color hint based on swipe direction
+        if (diff > 50) {
+            card.style.boxShadow = '0 0 30px rgba(0, 255, 136, 0.5)';
+        } else if (diff < -50) {
+            card.style.boxShadow = '0 0 30px rgba(255, 61, 61, 0.5)';
+        }
     }
 }
 
 function handleTouchEnd(e) {
     const diff = touchEndX - touchStartX;
+    
+    // Reset transform
     card.style.transform = '';
     card.style.transition = '';
+    card.style.boxShadow = '';
     
-    // Swipe threshold increased and check if moved during touch
-    if (Math.abs(diff) > 100) {
+    // Determine action based on swipe distance
+    if (Math.abs(diff) > 80 && isSwiping) {
         // Clear swipe detected
         if (diff > 0) {
             swipeRight();
         } else {
             swipeLeft();
         }
-    } else if (Math.abs(diff) < 15) {
+    } else if (!isSwiping || Math.abs(diff) < 10) {
         // It's a tap - flip the card
         flipCard();
     }
@@ -313,11 +336,12 @@ function handleTouchEnd(e) {
     // Reset
     touchStartX = 0;
     touchEndX = 0;
+    isSwiping = false;
 }
 
 function handleCardClick(e) {
-    // Only flip if it's a desktop click (no touch event)
-    if (touchStartX === 0 && touchEndX === 0) {
+    // Desktop click - always flip
+    if (!isSwiping) {
         flipCard();
     }
 }
