@@ -12,7 +12,17 @@ const dsaPatterns = [
     { id: 7, name: "Binary Search (Classic)" },
     { id: 8, name: "Binary Search on Answer" },
     { id: 9, name: "Stack (Monotonic Stack)" },
-    { id: 10, name: "Queue / Deque" }
+    { id: 10, name: "Queue / Deque" },
+    { id: 11, name: "Linked List" },
+    { id: 12, name: "Tree Traversal" },
+    { id: 13, name: "Binary Search Tree (BST)" },
+    { id: 14, name: "Heap / Priority Queue" },
+    { id: 15, name: "Graph – BFS / DFS" },
+    { id: 16, name: "Graph – Shortest Path" },
+    { id: 17, name: "DP – 1D" },
+    { id: 18, name: "DP – 2D" },
+    { id: 19, name: "Backtracking" },
+    { id: 20, name: "Bit Manipulation" }
 ];
 
 const dsaProblems = [
@@ -1128,5 +1138,1122 @@ for char in stream:
         if len(self.queue) > self.size:
             self.total -= self.queue.popleft()
         return self.total / len(self.queue)`
+    },
+
+    // ============================================
+    // 1️⃣1️⃣ Linked List
+    // ============================================
+    {
+        id: 51,
+        patternId: 11,
+        title: "Reverse Linked List",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/reverse-linked-list/",
+        hint: "Track previous, current, and next pointers",
+        approach: "Iteratively reverse pointers. Keep track of prev, curr, next. Point curr.next to prev.",
+        complexity: "Time: O(n) | Space: O(1)",
+        keyInsight: "Save next before reversing pointer. Three pointers: prev, curr, next.",
+        pseudocode: `prev = None
+curr = head
+while curr:
+    next_temp = curr.next
+    curr.next = prev
+    prev = curr
+    curr = next_temp
+return prev`
+    },
+    {
+        id: 52,
+        patternId: 11,
+        title: "Linked List Cycle",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/linked-list-cycle/",
+        hint: "Floyd's cycle detection - slow and fast pointers",
+        approach: "Slow moves 1 step, fast moves 2 steps. If they meet, there's a cycle.",
+        complexity: "Time: O(n) | Space: O(1)",
+        keyInsight: "If cycle exists, fast will eventually catch slow. Like runners on circular track.",
+        pseudocode: `slow = fast = head
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+    if slow == fast:
+        return True
+return False`
+    },
+    {
+        id: 53,
+        patternId: 11,
+        title: "Merge Two Sorted Lists",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/merge-two-sorted-lists/",
+        hint: "Use dummy head, compare and link smaller node",
+        approach: "Create dummy head. Compare nodes from both lists, append smaller one. Handle remaining.",
+        complexity: "Time: O(n + m) | Space: O(1)",
+        keyInsight: "Dummy head simplifies edge cases. Just compare and link.",
+        pseudocode: `dummy = ListNode(0)
+curr = dummy
+while l1 and l2:
+    if l1.val <= l2.val:
+        curr.next = l1
+        l1 = l1.next
+    else:
+        curr.next = l2
+        l2 = l2.next
+    curr = curr.next
+curr.next = l1 or l2
+return dummy.next`
+    },
+    {
+        id: 54,
+        patternId: 11,
+        title: "Remove Nth Node From End",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
+        hint: "Two pointers with n gap between them",
+        approach: "Move fast pointer n steps ahead. Then move both until fast reaches end. Slow is at node before target.",
+        complexity: "Time: O(n) | Space: O(1)",
+        keyInsight: "When fast is at end, slow is n nodes behind (at node to remove).",
+        pseudocode: `dummy = ListNode(0, head)
+fast = slow = dummy
+for _ in range(n + 1):
+    fast = fast.next
+while fast:
+    fast = fast.next
+    slow = slow.next
+slow.next = slow.next.next
+return dummy.next`
+    },
+    {
+        id: 55,
+        patternId: 11,
+        title: "Intersection of Two Linked Lists",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/intersection-of-two-linked-lists/",
+        hint: "Switch heads when reaching end - they'll meet at intersection",
+        approach: "Two pointers traverse both lists. When one ends, start at other's head. They meet at intersection or both null.",
+        complexity: "Time: O(n + m) | Space: O(1)",
+        keyInsight: "a + c + b = b + c + a. Both traverse same total distance.",
+        pseudocode: `pA, pB = headA, headB
+while pA != pB:
+    pA = pA.next if pA else headB
+    pB = pB.next if pB else headA
+return pA  # intersection or None`
+    },
+
+    // ============================================
+    // 1️⃣2️⃣ Tree Traversal
+    // ============================================
+    {
+        id: 56,
+        patternId: 12,
+        title: "Binary Tree Inorder Traversal",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/binary-tree-inorder-traversal/",
+        hint: "Left → Root → Right. Use recursion or stack.",
+        approach: "Recursive: visit left subtree, process root, visit right subtree. Iterative: use stack.",
+        complexity: "Time: O(n) | Space: O(h) where h is height",
+        keyInsight: "Inorder on BST gives sorted order. Stack simulates recursion.",
+        pseudocode: `# Iterative with stack
+result = []
+stack = []
+curr = root
+while curr or stack:
+    while curr:
+        stack.append(curr)
+        curr = curr.left
+    curr = stack.pop()
+    result.append(curr.val)
+    curr = curr.right
+return result`
+    },
+    {
+        id: 57,
+        patternId: 12,
+        title: "Maximum Depth of Binary Tree",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+        hint: "Depth = 1 + max(left depth, right depth)",
+        approach: "Recursively compute depth of left and right subtrees. Return 1 + max of both.",
+        complexity: "Time: O(n) | Space: O(h)",
+        keyInsight: "Base case: null node has depth 0. Recursively find max depth of children.",
+        pseudocode: `def maxDepth(root):
+    if not root:
+        return 0
+    return 1 + max(maxDepth(root.left), maxDepth(root.right))`
+    },
+    {
+        id: 58,
+        patternId: 12,
+        title: "Binary Tree Level Order Traversal",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/binary-tree-level-order-traversal/",
+        hint: "BFS with queue, process level by level",
+        approach: "Use queue for BFS. Process all nodes at current level before moving to next.",
+        complexity: "Time: O(n) | Space: O(w) where w is max width",
+        keyInsight: "Track level size at start of each iteration. Process that many nodes.",
+        pseudocode: `if not root: return []
+result = []
+queue = deque([root])
+while queue:
+    level = []
+    for _ in range(len(queue)):
+        node = queue.popleft()
+        level.append(node.val)
+        if node.left: queue.append(node.left)
+        if node.right: queue.append(node.right)
+    result.append(level)
+return result`
+    },
+    {
+        id: 59,
+        patternId: 12,
+        title: "Diameter of Binary Tree",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/diameter-of-binary-tree/",
+        hint: "Diameter through a node = left height + right height",
+        approach: "For each node, calculate left height + right height. Track maximum across all nodes.",
+        complexity: "Time: O(n) | Space: O(h)",
+        keyInsight: "Diameter may not pass through root. Check at every node during height calculation.",
+        pseudocode: `diameter = 0
+def height(node):
+    global diameter
+    if not node: return 0
+    left = height(node.left)
+    right = height(node.right)
+    diameter = max(diameter, left + right)
+    return 1 + max(left, right)
+height(root)
+return diameter`
+    },
+    {
+        id: 60,
+        patternId: 12,
+        title: "Path Sum",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/path-sum/",
+        hint: "Subtract node value from target, check if leaf has remaining = 0",
+        approach: "DFS: subtract current value from target. At leaf, check if remaining target is 0.",
+        complexity: "Time: O(n) | Space: O(h)",
+        keyInsight: "Pass remaining sum down. At leaf node, check if exactly 0 remains.",
+        pseudocode: `def hasPathSum(root, targetSum):
+    if not root:
+        return False
+    if not root.left and not root.right:  # leaf
+        return targetSum == root.val
+    remaining = targetSum - root.val
+    return hasPathSum(root.left, remaining) or hasPathSum(root.right, remaining)`
+    },
+
+    // ============================================
+    // 1️⃣3️⃣ Binary Search Tree (BST)
+    // ============================================
+    {
+        id: 61,
+        patternId: 13,
+        title: "Validate Binary Search Tree",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/validate-binary-search-tree/",
+        hint: "Track valid range (min, max) for each node",
+        approach: "Each node must be within a valid range. Update range as you traverse down.",
+        complexity: "Time: O(n) | Space: O(h)",
+        keyInsight: "Pass min/max bounds down. Left child: max = parent. Right child: min = parent.",
+        pseudocode: `def isValid(node, minVal, maxVal):
+    if not node:
+        return True
+    if node.val <= minVal or node.val >= maxVal:
+        return False
+    return isValid(node.left, minVal, node.val) and \\
+           isValid(node.right, node.val, maxVal)
+return isValid(root, float('-inf'), float('inf'))`
+    },
+    {
+        id: 62,
+        patternId: 13,
+        title: "Lowest Common Ancestor of BST",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/",
+        hint: "Use BST property - if both less, go left; if both greater, go right",
+        approach: "If both nodes < current, LCA is in left. If both > current, LCA is in right. Otherwise, current is LCA.",
+        complexity: "Time: O(h) | Space: O(1) iterative",
+        keyInsight: "First node where p and q split (one left, one right) is the LCA.",
+        pseudocode: `while root:
+    if p.val < root.val and q.val < root.val:
+        root = root.left
+    elif p.val > root.val and q.val > root.val:
+        root = root.right
+    else:
+        return root  # found split point`
+    },
+    {
+        id: 63,
+        patternId: 13,
+        title: "Insert into a Binary Search Tree",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/insert-into-a-binary-search-tree/",
+        hint: "Find correct leaf position using BST property",
+        approach: "Traverse down: go left if val < node, right if val > node. Insert at null position.",
+        complexity: "Time: O(h) | Space: O(h) recursive, O(1) iterative",
+        keyInsight: "New node always becomes a leaf. Find the right spot and attach.",
+        pseudocode: `def insertIntoBST(root, val):
+    if not root:
+        return TreeNode(val)
+    if val < root.val:
+        root.left = insertIntoBST(root.left, val)
+    else:
+        root.right = insertIntoBST(root.right, val)
+    return root`
+    },
+    {
+        id: 64,
+        patternId: 13,
+        title: "Kth Smallest Element in a BST",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
+        hint: "Inorder traversal gives sorted order - find kth element",
+        approach: "Inorder traversal visits nodes in sorted order. Count nodes until k is reached.",
+        complexity: "Time: O(h + k) | Space: O(h)",
+        keyInsight: "Inorder of BST = sorted array. Stop when you've seen k nodes.",
+        pseudocode: `count = 0
+result = None
+def inorder(node):
+    global count, result
+    if not node or result is not None:
+        return
+    inorder(node.left)
+    count += 1
+    if count == k:
+        result = node.val
+        return
+    inorder(node.right)
+inorder(root)
+return result`
+    },
+    {
+        id: 65,
+        patternId: 13,
+        title: "Convert Sorted Array to BST",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/",
+        hint: "Middle element becomes root, recurse on left and right halves",
+        approach: "Pick middle as root for balance. Recursively build left subtree from left half, right from right half.",
+        complexity: "Time: O(n) | Space: O(log n)",
+        keyInsight: "Middle element as root ensures balanced tree. Divide and conquer.",
+        pseudocode: `def sortedArrayToBST(nums):
+    if not nums:
+        return None
+    mid = len(nums) // 2
+    root = TreeNode(nums[mid])
+    root.left = sortedArrayToBST(nums[:mid])
+    root.right = sortedArrayToBST(nums[mid+1:])
+    return root`
+    },
+
+    // ============================================
+    // 1️⃣4️⃣ Heap / Priority Queue
+    // ============================================
+    {
+        id: 66,
+        patternId: 14,
+        title: "Kth Largest Element in an Array",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/kth-largest-element-in-an-array/",
+        hint: "Use min-heap of size k, or quickselect",
+        approach: "Min-heap of size k: top is kth largest. Or use quickselect for O(n) average.",
+        complexity: "Time: O(n log k) heap / O(n) avg quickselect | Space: O(k)",
+        keyInsight: "Min-heap of size k: smallest in heap = kth largest overall.",
+        pseudocode: `import heapq
+# Min-heap approach
+heap = []
+for num in nums:
+    heapq.heappush(heap, num)
+    if len(heap) > k:
+        heapq.heappop(heap)
+return heap[0]  # kth largest`
+    },
+    {
+        id: 67,
+        patternId: 14,
+        title: "Top K Frequent Elements",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/top-k-frequent-elements/",
+        hint: "Count frequencies, use heap or bucket sort",
+        approach: "Count frequencies. Use min-heap of size k based on frequency, or bucket sort.",
+        complexity: "Time: O(n log k) heap / O(n) bucket | Space: O(n)",
+        keyInsight: "Heap: keep k most frequent. Bucket sort: index by frequency.",
+        pseudocode: `from collections import Counter
+import heapq
+count = Counter(nums)
+# Min-heap by frequency
+return heapq.nlargest(k, count.keys(), key=count.get)`
+    },
+    {
+        id: 68,
+        patternId: 14,
+        title: "Find Median from Data Stream",
+        difficulty: "Hard",
+        link: "https://leetcode.com/problems/find-median-from-data-stream/",
+        hint: "Two heaps: max-heap for lower half, min-heap for upper half",
+        approach: "Max-heap stores smaller half, min-heap stores larger half. Balance sizes. Median from tops.",
+        complexity: "Time: O(log n) add, O(1) median | Space: O(n)",
+        keyInsight: "Split data into two halves. Median is average of two tops or top of larger heap.",
+        pseudocode: `class MedianFinder:
+    def __init__(self):
+        self.small = []  # max-heap (negate values)
+        self.large = []  # min-heap
+    
+    def addNum(self, num):
+        heapq.heappush(self.small, -num)
+        heapq.heappush(self.large, -heapq.heappop(self.small))
+        if len(self.large) > len(self.small):
+            heapq.heappush(self.small, -heapq.heappop(self.large))
+    
+    def findMedian(self):
+        if len(self.small) > len(self.large):
+            return -self.small[0]
+        return (-self.small[0] + self.large[0]) / 2`
+    },
+    {
+        id: 69,
+        patternId: 14,
+        title: "Merge K Sorted Lists",
+        difficulty: "Hard",
+        link: "https://leetcode.com/problems/merge-k-sorted-lists/",
+        hint: "Use min-heap to always get smallest among k heads",
+        approach: "Add all list heads to min-heap. Pop smallest, add its next to heap. Repeat.",
+        complexity: "Time: O(n log k) | Space: O(k)",
+        keyInsight: "Heap of size k gives smallest among all list heads in O(log k).",
+        pseudocode: `import heapq
+heap = []
+for i, lst in enumerate(lists):
+    if lst:
+        heapq.heappush(heap, (lst.val, i, lst))
+dummy = curr = ListNode(0)
+while heap:
+    val, i, node = heapq.heappop(heap)
+    curr.next = node
+    curr = curr.next
+    if node.next:
+        heapq.heappush(heap, (node.next.val, i, node.next))
+return dummy.next`
+    },
+    {
+        id: 70,
+        patternId: 14,
+        title: "Reorganize String",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/reorganize-string/",
+        hint: "Greedily place most frequent character, use max-heap",
+        approach: "Use max-heap by frequency. Always place most frequent char, then put it back with reduced count.",
+        complexity: "Time: O(n log 26) = O(n) | Space: O(26) = O(1)",
+        keyInsight: "If most frequent char count > (n+1)/2, impossible. Use heap to alternate.",
+        pseudocode: `from collections import Counter
+import heapq
+count = Counter(s)
+maxHeap = [(-cnt, char) for char, cnt in count.items()]
+heapq.heapify(maxHeap)
+result = []
+prev = (0, '')
+while maxHeap:
+    cnt, char = heapq.heappop(maxHeap)
+    result.append(char)
+    if prev[0] < 0:
+        heapq.heappush(maxHeap, prev)
+    prev = (cnt + 1, char)
+return ''.join(result) if len(result) == len(s) else ""`
+    },
+
+    // ============================================
+    // 1️⃣5️⃣ Graph – BFS / DFS
+    // ============================================
+    {
+        id: 71,
+        patternId: 15,
+        title: "Number of Islands",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/number-of-islands/",
+        hint: "DFS/BFS from each unvisited land cell, mark visited",
+        approach: "For each '1' not visited, run DFS/BFS to mark entire island. Count number of DFS calls.",
+        complexity: "Time: O(m × n) | Space: O(m × n) worst case",
+        keyInsight: "Each DFS explores one complete island. Count = number of DFS initiations.",
+        pseudocode: `def numIslands(grid):
+    count = 0
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j] == '1':
+                dfs(grid, i, j)
+                count += 1
+    return count
+
+def dfs(grid, i, j):
+    if i < 0 or j < 0 or i >= len(grid) or j >= len(grid[0]) or grid[i][j] != '1':
+        return
+    grid[i][j] = '0'  # mark visited
+    dfs(grid, i+1, j); dfs(grid, i-1, j)
+    dfs(grid, i, j+1); dfs(grid, i, j-1)`
+    },
+    {
+        id: 72,
+        patternId: 15,
+        title: "Clone Graph",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/clone-graph/",
+        hint: "Use hashmap to map original node to clone, DFS/BFS",
+        approach: "Use hashmap {original: clone}. DFS/BFS traverse, create clones, connect neighbors.",
+        complexity: "Time: O(V + E) | Space: O(V)",
+        keyInsight: "Map old nodes to new nodes. When visiting, create clone if not exists.",
+        pseudocode: `def cloneGraph(node):
+    if not node: return None
+    cloned = {node: Node(node.val)}
+    queue = deque([node])
+    while queue:
+        curr = queue.popleft()
+        for neighbor in curr.neighbors:
+            if neighbor not in cloned:
+                cloned[neighbor] = Node(neighbor.val)
+                queue.append(neighbor)
+            cloned[curr].neighbors.append(cloned[neighbor])
+    return cloned[node]`
+    },
+    {
+        id: 73,
+        patternId: 15,
+        title: "Flood Fill",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/flood-fill/",
+        hint: "DFS/BFS from starting pixel, change color",
+        approach: "DFS from start pixel. Change color of all connected same-color pixels.",
+        complexity: "Time: O(m × n) | Space: O(m × n)",
+        keyInsight: "Simple DFS. Check if pixel is original color before filling.",
+        pseudocode: `def floodFill(image, sr, sc, color):
+    originalColor = image[sr][sc]
+    if originalColor == color: return image
+    
+    def dfs(r, c):
+        if r < 0 or c < 0 or r >= len(image) or c >= len(image[0]):
+            return
+        if image[r][c] != originalColor:
+            return
+        image[r][c] = color
+        dfs(r+1, c); dfs(r-1, c); dfs(r, c+1); dfs(r, c-1)
+    
+    dfs(sr, sc)
+    return image`
+    },
+    {
+        id: 74,
+        patternId: 15,
+        title: "Keys and Rooms",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/keys-and-rooms/",
+        hint: "DFS/BFS from room 0, collect keys to visit more rooms",
+        approach: "Start from room 0 with its keys. BFS/DFS to visit rooms as you collect keys.",
+        complexity: "Time: O(n + k) where k is total keys | Space: O(n)",
+        keyInsight: "Graph traversal where keys = edges. Check if all rooms reachable.",
+        pseudocode: `def canVisitAllRooms(rooms):
+    visited = {0}
+    stack = [0]
+    while stack:
+        room = stack.pop()
+        for key in rooms[room]:
+            if key not in visited:
+                visited.add(key)
+                stack.append(key)
+    return len(visited) == len(rooms)`
+    },
+    {
+        id: 75,
+        patternId: 15,
+        title: "Course Schedule",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/course-schedule/",
+        hint: "Detect cycle in directed graph - topological sort",
+        approach: "Build graph. Use DFS with 3 states (unvisited, visiting, visited) or BFS with indegree.",
+        complexity: "Time: O(V + E) | Space: O(V + E)",
+        keyInsight: "Cycle detection in DAG. If cycle exists, can't complete all courses.",
+        pseudocode: `def canFinish(numCourses, prerequisites):
+    graph = defaultdict(list)
+    indegree = [0] * numCourses
+    for course, prereq in prerequisites:
+        graph[prereq].append(course)
+        indegree[course] += 1
+    
+    queue = deque([i for i in range(numCourses) if indegree[i] == 0])
+    count = 0
+    while queue:
+        node = queue.popleft()
+        count += 1
+        for neighbor in graph[node]:
+            indegree[neighbor] -= 1
+            if indegree[neighbor] == 0:
+                queue.append(neighbor)
+    return count == numCourses`
+    },
+
+    // ============================================
+    // 1️⃣6️⃣ Graph – Shortest Path
+    // ============================================
+    {
+        id: 76,
+        patternId: 16,
+        title: "Shortest Path in Binary Matrix",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/shortest-path-in-binary-matrix/",
+        hint: "BFS from (0,0), 8-directional movement",
+        approach: "BFS gives shortest path in unweighted graph. Move in 8 directions. Track distance.",
+        complexity: "Time: O(n²) | Space: O(n²)",
+        keyInsight: "BFS level = distance. First time reaching (n-1, n-1) is shortest path.",
+        pseudocode: `def shortestPathBinaryMatrix(grid):
+    n = len(grid)
+    if grid[0][0] or grid[n-1][n-1]: return -1
+    queue = deque([(0, 0, 1)])
+    grid[0][0] = 1  # visited
+    dirs = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
+    while queue:
+        r, c, dist = queue.popleft()
+        if r == n-1 and c == n-1: return dist
+        for dr, dc in dirs:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] == 0:
+                grid[nr][nc] = 1
+                queue.append((nr, nc, dist + 1))
+    return -1`
+    },
+    {
+        id: 77,
+        patternId: 16,
+        title: "Network Delay Time",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/network-delay-time/",
+        hint: "Dijkstra's algorithm - find shortest path to all nodes",
+        approach: "Dijkstra from source. Track min time to reach each node. Answer is max of all times.",
+        complexity: "Time: O(E log V) | Space: O(V + E)",
+        keyInsight: "Dijkstra finds shortest path to all nodes. Signal reaches all when slowest node reached.",
+        pseudocode: `def networkDelayTime(times, n, k):
+    graph = defaultdict(list)
+    for u, v, w in times:
+        graph[u].append((v, w))
+    
+    dist = {k: 0}
+    heap = [(0, k)]
+    while heap:
+        d, node = heapq.heappop(heap)
+        if d > dist.get(node, float('inf')): continue
+        for neighbor, weight in graph[node]:
+            newDist = d + weight
+            if newDist < dist.get(neighbor, float('inf')):
+                dist[neighbor] = newDist
+                heapq.heappush(heap, (newDist, neighbor))
+    return max(dist.values()) if len(dist) == n else -1`
+    },
+    {
+        id: 78,
+        patternId: 16,
+        title: "Cheapest Flights Within K Stops",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/cheapest-flights-within-k-stops/",
+        hint: "Modified Dijkstra or BFS with stops constraint",
+        approach: "BFS level by level (each level = 1 stop). Or Bellman-Ford with k+1 iterations.",
+        complexity: "Time: O(k × E) | Space: O(V)",
+        keyInsight: "Bellman-Ford: relax edges k+1 times. BFS: process level by level up to k stops.",
+        pseudocode: `def findCheapestPrice(n, flights, src, dst, k):
+    prices = [float('inf')] * n
+    prices[src] = 0
+    
+    for _ in range(k + 1):
+        temp = prices.copy()
+        for u, v, w in flights:
+            if prices[u] != float('inf'):
+                temp[v] = min(temp[v], prices[u] + w)
+        prices = temp
+    
+    return prices[dst] if prices[dst] != float('inf') else -1`
+    },
+    {
+        id: 79,
+        patternId: 16,
+        title: "Path With Minimum Effort (Dijkstra)",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/path-with-minimum-effort/",
+        hint: "Dijkstra where edge weight = height difference",
+        approach: "Modified Dijkstra. Priority = max height difference on path so far. Minimize maximum.",
+        complexity: "Time: O(m × n × log(m × n)) | Space: O(m × n)",
+        keyInsight: "Edge weight = |height difference|. Minimize max edge weight on path.",
+        pseudocode: `def minimumEffortPath(heights):
+    m, n = len(heights), len(heights[0])
+    effort = [[float('inf')] * n for _ in range(m)]
+    effort[0][0] = 0
+    heap = [(0, 0, 0)]  # (effort, row, col)
+    
+    while heap:
+        e, r, c = heapq.heappop(heap)
+        if r == m-1 and c == n-1: return e
+        if e > effort[r][c]: continue
+        for dr, dc in [(0,1),(0,-1),(1,0),(-1,0)]:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < m and 0 <= nc < n:
+                newEffort = max(e, abs(heights[nr][nc] - heights[r][c]))
+                if newEffort < effort[nr][nc]:
+                    effort[nr][nc] = newEffort
+                    heapq.heappush(heap, (newEffort, nr, nc))
+    return 0`
+    },
+    {
+        id: 80,
+        patternId: 16,
+        title: "Bellman-Ford Algorithm",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/cheapest-flights-within-k-stops/",
+        hint: "Relax all edges V-1 times, detect negative cycles",
+        approach: "Relax all edges V-1 times. Can detect negative cycles with one more iteration.",
+        complexity: "Time: O(V × E) | Space: O(V)",
+        keyInsight: "Works with negative edges. V-1 iterations guarantee shortest path if no negative cycle.",
+        pseudocode: `def bellmanFord(n, edges, src):
+    dist = [float('inf')] * n
+    dist[src] = 0
+    
+    for _ in range(n - 1):
+        for u, v, w in edges:
+            if dist[u] != float('inf') and dist[u] + w < dist[v]:
+                dist[v] = dist[u] + w
+    
+    # Check for negative cycles
+    for u, v, w in edges:
+        if dist[u] != float('inf') and dist[u] + w < dist[v]:
+            return None  # Negative cycle exists
+    return dist`
+    },
+
+    // ============================================
+    // 1️⃣7️⃣ DP – 1D
+    // ============================================
+    {
+        id: 81,
+        patternId: 17,
+        title: "Climbing Stairs",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/climbing-stairs/",
+        hint: "dp[i] = dp[i-1] + dp[i-2] (Fibonacci pattern)",
+        approach: "Ways to reach step i = ways to reach (i-1) + ways to reach (i-2). Same as Fibonacci.",
+        complexity: "Time: O(n) | Space: O(1)",
+        keyInsight: "From step i-1, take 1 step. From step i-2, take 2 steps. Fibonacci!",
+        pseudocode: `def climbStairs(n):
+    if n <= 2: return n
+    prev2, prev1 = 1, 2
+    for i in range(3, n + 1):
+        curr = prev1 + prev2
+        prev2 = prev1
+        prev1 = curr
+    return prev1`
+    },
+    {
+        id: 82,
+        patternId: 17,
+        title: "House Robber",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/house-robber/",
+        hint: "dp[i] = max(dp[i-1], dp[i-2] + nums[i])",
+        approach: "At each house: skip it (keep prev max) or rob it (prev-prev max + current). Take max.",
+        complexity: "Time: O(n) | Space: O(1)",
+        keyInsight: "Can't rob adjacent. Either skip current or add to non-adjacent max.",
+        pseudocode: `def rob(nums):
+    prev2, prev1 = 0, 0
+    for num in nums:
+        curr = max(prev1, prev2 + num)
+        prev2 = prev1
+        prev1 = curr
+    return prev1`
+    },
+    {
+        id: 83,
+        patternId: 17,
+        title: "Maximum Subarray",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/maximum-subarray/",
+        hint: "Kadane's algorithm: extend or start fresh",
+        approach: "At each position: either extend previous subarray or start new. Track global max.",
+        complexity: "Time: O(n) | Space: O(1)",
+        keyInsight: "currentMax = max(num, currentMax + num). If extending is worse, start fresh.",
+        pseudocode: `def maxSubArray(nums):
+    maxSum = currentSum = nums[0]
+    for num in nums[1:]:
+        currentSum = max(num, currentSum + num)
+        maxSum = max(maxSum, currentSum)
+    return maxSum`
+    },
+    {
+        id: 84,
+        patternId: 17,
+        title: "Decode Ways",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/decode-ways/",
+        hint: "dp[i] = dp[i-1] (if valid single) + dp[i-2] (if valid double)",
+        approach: "Check if current digit valid (1-9). Check if two digits valid (10-26). Sum ways.",
+        complexity: "Time: O(n) | Space: O(1)",
+        keyInsight: "Single digit: 1-9 valid. Two digits: 10-26 valid. Handle '0' carefully.",
+        pseudocode: `def numDecodings(s):
+    if not s or s[0] == '0': return 0
+    prev2, prev1 = 1, 1
+    for i in range(1, len(s)):
+        curr = 0
+        if s[i] != '0':
+            curr = prev1
+        if 10 <= int(s[i-1:i+1]) <= 26:
+            curr += prev2
+        prev2 = prev1
+        prev1 = curr
+    return prev1`
+    },
+    {
+        id: 85,
+        patternId: 17,
+        title: "Coin Change",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/coin-change/",
+        hint: "dp[amount] = min(dp[amount], dp[amount - coin] + 1)",
+        approach: "For each amount, try all coins. dp[i] = min coins to make amount i.",
+        complexity: "Time: O(amount × coins) | Space: O(amount)",
+        keyInsight: "Build up from 0. For each amount, check all coins that fit.",
+        pseudocode: `def coinChange(coins, amount):
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+    for i in range(1, amount + 1):
+        for coin in coins:
+            if coin <= i:
+                dp[i] = min(dp[i], dp[i - coin] + 1)
+    return dp[amount] if dp[amount] != float('inf') else -1`
+    },
+
+    // ============================================
+    // 1️⃣8️⃣ DP – 2D
+    // ============================================
+    {
+        id: 86,
+        patternId: 18,
+        title: "Unique Paths",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/unique-paths/",
+        hint: "dp[i][j] = dp[i-1][j] + dp[i][j-1]",
+        approach: "Can only come from top or left. Sum the ways. First row/col have only 1 way.",
+        complexity: "Time: O(m × n) | Space: O(n) optimized",
+        keyInsight: "Grid DP. Ways to cell = ways from above + ways from left.",
+        pseudocode: `def uniquePaths(m, n):
+    dp = [1] * n
+    for i in range(1, m):
+        for j in range(1, n):
+            dp[j] += dp[j-1]
+    return dp[n-1]`
+    },
+    {
+        id: 87,
+        patternId: 18,
+        title: "Longest Common Subsequence",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/longest-common-subsequence/",
+        hint: "If chars match: dp[i][j] = dp[i-1][j-1] + 1, else max of skip one char",
+        approach: "2D DP. If chars match, extend LCS. If not, take max of excluding one char from either string.",
+        complexity: "Time: O(m × n) | Space: O(n) optimized",
+        keyInsight: "Match = diagonal + 1. No match = max(left, top).",
+        pseudocode: `def longestCommonSubsequence(text1, text2):
+    m, n = len(text1), len(text2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if text1[i-1] == text2[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+    return dp[m][n]`
+    },
+    {
+        id: 88,
+        patternId: 18,
+        title: "Edit Distance",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/edit-distance/",
+        hint: "Three operations: insert, delete, replace. Take min.",
+        approach: "dp[i][j] = min edits to convert first i chars to first j chars. Three choices if chars differ.",
+        complexity: "Time: O(m × n) | Space: O(n) optimized",
+        keyInsight: "If same: dp[i-1][j-1]. Else: 1 + min(insert, delete, replace).",
+        pseudocode: `def minDistance(word1, word2):
+    m, n = len(word1), len(word2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(m + 1): dp[i][0] = i
+    for j in range(n + 1): dp[0][j] = j
+    
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if word1[i-1] == word2[j-1]:
+                dp[i][j] = dp[i-1][j-1]
+            else:
+                dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])
+    return dp[m][n]`
+    },
+    {
+        id: 89,
+        patternId: 18,
+        title: "Partition Equal Subset Sum (0/1 Knapsack)",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/partition-equal-subset-sum/",
+        hint: "Can we make sum/2? Classic 0/1 knapsack DP",
+        approach: "Target = sum/2. DP: can we make each sum using subset? dp[j] = can make sum j.",
+        complexity: "Time: O(n × sum) | Space: O(sum)",
+        keyInsight: "0/1 Knapsack: for each num, update reachable sums from high to low.",
+        pseudocode: `def canPartition(nums):
+    total = sum(nums)
+    if total % 2: return False
+    target = total // 2
+    dp = [False] * (target + 1)
+    dp[0] = True
+    for num in nums:
+        for j in range(target, num - 1, -1):
+            dp[j] = dp[j] or dp[j - num]
+    return dp[target]`
+    },
+    {
+        id: 90,
+        patternId: 18,
+        title: "Minimum Path Sum",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/minimum-path-sum/",
+        hint: "dp[i][j] = grid[i][j] + min(dp[i-1][j], dp[i][j-1])",
+        approach: "From each cell, min sum = current value + min of (from top, from left).",
+        complexity: "Time: O(m × n) | Space: O(n) optimized",
+        keyInsight: "Similar to unique paths but track sum instead of count.",
+        pseudocode: `def minPathSum(grid):
+    m, n = len(grid), len(grid[0])
+    dp = [float('inf')] * n
+    dp[0] = 0
+    for i in range(m):
+        for j in range(n):
+            if j == 0:
+                dp[j] += grid[i][j]
+            else:
+                dp[j] = grid[i][j] + min(dp[j], dp[j-1])
+    return dp[n-1]`
+    },
+
+    // ============================================
+    // 1️⃣9️⃣ Backtracking
+    // ============================================
+    {
+        id: 91,
+        patternId: 19,
+        title: "Subsets",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/subsets/",
+        hint: "For each element: include it or exclude it",
+        approach: "Backtracking: at each position, choose to include or exclude. Or use iterative approach.",
+        complexity: "Time: O(n × 2^n) | Space: O(n)",
+        keyInsight: "2^n subsets. Build by including/excluding each element.",
+        pseudocode: `def subsets(nums):
+    result = []
+    def backtrack(start, path):
+        result.append(path[:])
+        for i in range(start, len(nums)):
+            path.append(nums[i])
+            backtrack(i + 1, path)
+            path.pop()
+    backtrack(0, [])
+    return result`
+    },
+    {
+        id: 92,
+        patternId: 19,
+        title: "Permutations",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/permutations/",
+        hint: "Swap each element to current position, recurse",
+        approach: "For each position, try all unused elements. Track used elements or swap in place.",
+        complexity: "Time: O(n × n!) | Space: O(n)",
+        keyInsight: "n! permutations. Each position can have any remaining element.",
+        pseudocode: `def permute(nums):
+    result = []
+    def backtrack(path, used):
+        if len(path) == len(nums):
+            result.append(path[:])
+            return
+        for i in range(len(nums)):
+            if used[i]: continue
+            used[i] = True
+            path.append(nums[i])
+            backtrack(path, used)
+            path.pop()
+            used[i] = False
+    backtrack([], [False] * len(nums))
+    return result`
+    },
+    {
+        id: 93,
+        patternId: 19,
+        title: "Combination Sum",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/combination-sum/",
+        hint: "Can reuse elements - don't increment start index after picking",
+        approach: "Backtrack with remaining target. Can reuse elements (start from same index, not i+1).",
+        complexity: "Time: O(n^(target/min)) | Space: O(target/min)",
+        keyInsight: "Unlike subsets, can reuse. Pass same index i, not i+1.",
+        pseudocode: `def combinationSum(candidates, target):
+    result = []
+    def backtrack(start, path, remaining):
+        if remaining == 0:
+            result.append(path[:])
+            return
+        for i in range(start, len(candidates)):
+            if candidates[i] > remaining: continue
+            path.append(candidates[i])
+            backtrack(i, path, remaining - candidates[i])  # i, not i+1
+            path.pop()
+    backtrack(0, [], target)
+    return result`
+    },
+    {
+        id: 94,
+        patternId: 19,
+        title: "N-Queens",
+        difficulty: "Hard",
+        link: "https://leetcode.com/problems/n-queens/",
+        hint: "Place queens row by row, check column and diagonals",
+        approach: "Backtrack row by row. Track which columns and diagonals are attacked.",
+        complexity: "Time: O(n!) | Space: O(n)",
+        keyInsight: "One queen per row. Track: cols, diag1 (r-c), diag2 (r+c).",
+        pseudocode: `def solveNQueens(n):
+    result = []
+    cols = set()
+    diag1 = set()  # r - c
+    diag2 = set()  # r + c
+    board = [['.' for _ in range(n)] for _ in range(n)]
+    
+    def backtrack(row):
+        if row == n:
+            result.append([''.join(row) for row in board])
+            return
+        for col in range(n):
+            if col in cols or row-col in diag1 or row+col in diag2:
+                continue
+            cols.add(col); diag1.add(row-col); diag2.add(row+col)
+            board[row][col] = 'Q'
+            backtrack(row + 1)
+            board[row][col] = '.'
+            cols.remove(col); diag1.remove(row-col); diag2.remove(row+col)
+    
+    backtrack(0)
+    return result`
+    },
+    {
+        id: 95,
+        patternId: 19,
+        title: "Letter Combinations of a Phone Number",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/letter-combinations-of-a-phone-number/",
+        hint: "Map digits to letters, backtrack through all combinations",
+        approach: "Map each digit to letters. Backtrack through all combinations of letters.",
+        complexity: "Time: O(4^n × n) | Space: O(n)",
+        keyInsight: "Each digit maps to 3-4 letters. Multiply possibilities.",
+        pseudocode: `def letterCombinations(digits):
+    if not digits: return []
+    mapping = {'2':'abc','3':'def','4':'ghi','5':'jkl',
+               '6':'mno','7':'pqrs','8':'tuv','9':'wxyz'}
+    result = []
+    
+    def backtrack(idx, path):
+        if idx == len(digits):
+            result.append(''.join(path))
+            return
+        for char in mapping[digits[idx]]:
+            path.append(char)
+            backtrack(idx + 1, path)
+            path.pop()
+    
+    backtrack(0, [])
+    return result`
+    },
+
+    // ============================================
+    // 2️⃣0️⃣ Bit Manipulation
+    // ============================================
+    {
+        id: 96,
+        patternId: 20,
+        title: "Single Number",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/single-number/",
+        hint: "XOR all numbers - pairs cancel out",
+        approach: "XOR all numbers. a ^ a = 0, a ^ 0 = a. Pairs cancel, single remains.",
+        complexity: "Time: O(n) | Space: O(1)",
+        keyInsight: "XOR is commutative and associative. Duplicate pairs become 0.",
+        pseudocode: `def singleNumber(nums):
+    result = 0
+    for num in nums:
+        result ^= num
+    return result`
+    },
+    {
+        id: 97,
+        patternId: 20,
+        title: "Counting Bits",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/counting-bits/",
+        hint: "dp[i] = dp[i >> 1] + (i & 1)",
+        approach: "Number of 1s in i = number of 1s in i/2 + last bit. Or use i & (i-1) approach.",
+        complexity: "Time: O(n) | Space: O(n)",
+        keyInsight: "Right shift loses last bit. Add it back: dp[i] = dp[i//2] + i%2.",
+        pseudocode: `def countBits(n):
+    dp = [0] * (n + 1)
+    for i in range(1, n + 1):
+        dp[i] = dp[i >> 1] + (i & 1)
+    return dp`
+    },
+    {
+        id: 98,
+        patternId: 20,
+        title: "Hamming Distance",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/hamming-distance/",
+        hint: "XOR then count 1s in result",
+        approach: "XOR gives 1s where bits differ. Count the 1s in XOR result.",
+        complexity: "Time: O(1) | Space: O(1)",
+        keyInsight: "XOR highlights differences. Then count set bits.",
+        pseudocode: `def hammingDistance(x, y):
+    xor = x ^ y
+    count = 0
+    while xor:
+        count += xor & 1
+        xor >>= 1
+    return count
+# Or: return bin(x ^ y).count('1')`
+    },
+    {
+        id: 99,
+        patternId: 20,
+        title: "Power of Two",
+        difficulty: "Easy",
+        link: "https://leetcode.com/problems/power-of-two/",
+        hint: "Power of 2 has exactly one 1-bit",
+        approach: "n & (n-1) removes lowest set bit. Power of 2 has only one bit, so result is 0.",
+        complexity: "Time: O(1) | Space: O(1)",
+        keyInsight: "2^k has single 1-bit. n & (n-1) = 0 for powers of 2.",
+        pseudocode: `def isPowerOfTwo(n):
+    return n > 0 and (n & (n - 1)) == 0`
+    },
+    {
+        id: 100,
+        patternId: 20,
+        title: "Subsets (Bitmask)",
+        difficulty: "Medium",
+        link: "https://leetcode.com/problems/subsets/",
+        hint: "Use binary numbers 0 to 2^n-1 as masks",
+        approach: "Each number from 0 to 2^n-1 represents a subset. Bit i = include nums[i].",
+        complexity: "Time: O(n × 2^n) | Space: O(n × 2^n)",
+        keyInsight: "Iterative bitmask: number i's binary representation defines subset.",
+        pseudocode: `def subsets(nums):
+    n = len(nums)
+    result = []
+    for mask in range(1 << n):  # 0 to 2^n - 1
+        subset = []
+        for i in range(n):
+            if mask & (1 << i):  # if bit i is set
+                subset.append(nums[i])
+        result.append(subset)
+    return result`
     }
 ];

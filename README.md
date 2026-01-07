@@ -2,8 +2,8 @@
 
 An interactive flashcard-style app to help you learn and master the top DSA patterns for competitive programming interviews.
 
-![DSA Quest](https://img.shields.io/badge/Problems-50-orange)
-![Patterns](https://img.shields.io/badge/Patterns-10-yellow)
+![DSA Quest](https://img.shields.io/badge/Problems-100-orange)
+![Patterns](https://img.shields.io/badge/Patterns-20-yellow)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ## ✨ Features
@@ -20,18 +20,30 @@ An interactive flashcard-style app to help you learn and master the top DSA patt
 
 Visit: **https://YOUR_USERNAME.github.io/DSA_Practo/**
 
-## 📚 Patterns Covered
+## 📚 All 20 Patterns Covered
 
-1. **Array Traversal & Simulation** - 5 problems
-2. **Two Pointers** - 5 problems
-3. **Sliding Window** - 5 problems
-4. **Prefix Sum** - 5 problems
-5. **Hashing / Frequency Map** - 5 problems
-6. **Sorting + Greedy** - 5 problems
-7. **Binary Search (Classic)** - 5 problems
-8. **Binary Search on Answer** - 5 problems
-9. **Stack (Monotonic Stack)** - 5 problems
-10. **Queue / Deque** - 5 problems
+| # | Pattern | Problems |
+|---|---------|----------|
+| 1 | Array Traversal & Simulation | 5 |
+| 2 | Two Pointers | 5 |
+| 3 | Sliding Window | 5 |
+| 4 | Prefix Sum | 5 |
+| 5 | Hashing / Frequency Map | 5 |
+| 6 | Sorting + Greedy | 5 |
+| 7 | Binary Search (Classic) | 5 |
+| 8 | Binary Search on Answer | 5 |
+| 9 | Stack (Monotonic Stack) | 5 |
+| 10 | Queue / Deque | 5 |
+| 11 | Linked List | 5 |
+| 12 | Tree Traversal | 5 |
+| 13 | Binary Search Tree (BST) | 5 |
+| 14 | Heap / Priority Queue | 5 |
+| 15 | Graph – BFS / DFS | 5 |
+| 16 | Graph – Shortest Path | 5 |
+| 17 | DP – 1D | 5 |
+| 18 | DP – 2D | 5 |
+| 19 | Backtracking | 5 |
+| 20 | Bit Manipulation | 5 |
 
 ## 🎮 How to Use
 
